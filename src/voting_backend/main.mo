@@ -92,7 +92,7 @@ actor {
   public func resetVotes(passkey : Text) : async () {
     if (passkey == psk){
        votes := RBTree.RBTree(Text.compare);
-       votedList.clear();
+       votedList.clear()
     };
   };
 

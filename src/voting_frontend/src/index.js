@@ -3,7 +3,7 @@ import { voting_backend } from "../../declarations/voting_backend";
 const pollForm = document.getElementById("radioForm");
 const resultsDiv = document.getElementById('result-info');
 
-alert("working");
+// alert("working");
 
 const pollResults = {
     "Anoop Saini": 0,
@@ -11,7 +11,7 @@ const pollResults = {
     "Gorantla Srinivas": 0
 };
 
-const electionEndTime = new Date("2023-09-11T23:10:00");
+const electionEndTime = new Date("2023-09-12T00:23:00");
 
 document.addEventListener('DOMContentLoaded', async (e) => {
   e.preventDefault();
@@ -28,7 +28,10 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 pollForm.addEventListener('submit', async (e) => {
   e.preventDefault(); 
 
-  const formData = new FormData(radioForm);
+  const currentTime = new Date();
+  const timeRemaining = electionEndTime - currentTime;
+  if (timeRemaining > 0) {
+    const formData = new FormData(radioForm);
   const checkedValue = formData.get("option");
   let email = document.getElementById('email-field').value;
 
@@ -36,6 +39,10 @@ pollForm.addEventListener('submit', async (e) => {
   console.log("Returning from await...")
   console.log(updatedVoteCounts);
   updateLocalVoteCounts(updatedVoteCounts);
+  }
+
+  
+  
   // displayResults();
   return false;
 }, false);
