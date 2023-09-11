@@ -11,7 +11,7 @@ const pollResults = {
     "Gorantla Srinivas": 0
 };
 
-const electionEndTime = new Date("2023-09-13T00:00:00");
+const electionEndTime = new Date("2023-09-11T23:10:00");
 
 document.addEventListener('DOMContentLoaded', async (e) => {
   e.preventDefault();
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   
   const voteCounts = await voting_backend.getVotes();
   updateLocalVoteCounts(voteCounts);
-  displayResults();
-  voteListUpdate();
+  // displayResults(); // delete if causes problems -----------------------------------------------------------
+  // voteListUpdate();
   return false;
 }, false);
 
@@ -67,20 +67,20 @@ async function reset(passkey) {
   displayResults();
 };
 
-document.getElementById('email-btn').onclick = checkEmail();
+// document.getElementById('email-btn').onclick = checkEmail();
 
-function checkEmail() {
-  let email = document.getElementById('email-field').value;
-  console.log(email);// remove...............................................................
-  let messageElem = document.getElementById('validation-message');
+// function checkEmail() {
+//   let email = document.getElementById('email-field').value;
+//   console.log(email);// remove...............................................................
+//   let messageElem = document.getElementById('validation-message');
 
-  if (email.includes('.it.23@nitj.ac.in')) {
-    messageElem.innerText = 'Invalid Email!';
-  } else {
-    messageElem.innerText = 'Validated!';
-  }
-}
-// Done-----------------------------------------------------------------
+//   if (email.includes('.it.23@nitj.ac.in')) {
+//     messageElem.innerText = 'Invalid Email!';
+//   } else {
+//     messageElem.innerText = 'Validated!';
+//   }
+// }
+// // Done-----------------------------------------------------------------
 
 function displayResults() {
   let resultHTML = '<ul>';
@@ -92,37 +92,37 @@ function displayResults() {
 };
 // done------------------------------------------------------------------------
 
-function voteListUpdate() {
+// function voteListUpdate() {
 
-  for (let key in pollResults) {
-    const label = document.createElement("label");
+//   for (let key in pollResults) {
+//     const label = document.createElement("label");
 
-const radioInput = document.createElement("input");
-radioInput.type = "radio";
-radioInput.name = "option";
-radioInput.value = key;
+// const radioInput = document.createElement("input");
+// radioInput.type = "radio";
+// radioInput.name = "option";
+// radioInput.value = key;
 
-label.textContent = " " + key;
+// label.textContent = " " + key;
 
-label.appendChild(radioInput);
+// label.appendChild(radioInput);
 
-targetform = document.getElementById('radioForm');
-targetform.appendChild(label);
+// targetform = document.getElementById('radioForm');
+// targetform.appendChild(label);
 
-targetform.appendChild(document.createElement("br"));
-  }
+// targetform.appendChild(document.createElement("br"));
+//   }
 
-  const button = document.createElement("button");
+//   const button = document.createElement("button");
 
-// Set the button type attribute to "submit"
-button.setAttribute("type", "submit");
+// // Set the button type attribute to "submit"
+// button.setAttribute("type", "submit");
 
-// Set the button text content to "Vote"
-button.textContent = "Vote";
+// // Set the button text content to "Vote"
+// button.textContent = "Vote";
 
-// Append the button to the document body or another desired element
-targetform.appendChild(button);
-}
+// // Append the button to the document body or another desired element
+// targetform.appendChild(button);
+// }
 // done------------------------------------------------------------------
 
 function updateLocalVoteCounts(arrayOfVoteArrays){

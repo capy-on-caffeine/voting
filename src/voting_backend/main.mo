@@ -15,7 +15,7 @@ actor {
 
   var votedList = Buffer.Buffer<Text>(120);
 
-  var question : Text = "Who will sit on the throne?";
+  // var question : Text = "Who will sit on the throne?";
   var votes : RBTree.RBTree<Text, Nat> = RBTree.RBTree(Text.compare);
 
   func textToNat(t : Text) : Nat {
@@ -36,9 +36,9 @@ actor {
     return false;
   };
 
-  public query func getQuestion() : async Text {
-    question;
-  };
+  // public query func getQuestion() : async Text {
+  //   question;
+  // };
 
   // public func vote(voterMail : Text, candidateMail : Text) : async Text {
   //     if (not personExistsElectionPool(voterMail)) {return "Person not in election pool";}
@@ -62,24 +62,26 @@ actor {
     Iter.toArray(votes.entries());
   };
 
-  public func addCandidate(entry : Text) : async [(Text, Nat)] {
-    votes.put(entry, 0);
-    Iter.toArray(votes.entries());
-  };
+  // public func addCandidate(entry : Text) : async [(Text, Nat)] {
+  //   votes.put(entry, 0);
+  //   Iter.toArray(votes.entries());
+  // };
 
   public func vote(voterMail : Text, entry : Text) : async [(Text, Nat)] {
     if (not personExistsVoters(voterMail)) {
     let votes_for_entry : ?Nat = votes.get(entry);
 
-    let current_votes_for_entry : Int = switch votes_for_entry {
-      case null -1;
+    let current_votes_for_entry : Nat = switch votes_for_entry {
+      case null 0;
       case (?Nat) Nat;
     };
 
-    if (current_votes_for_entry != -1) {
-      let current_votes_for_entry_nat : Nat = textToNat(Int.toText(current_votes_for_entry));
-      votes.put(entry, current_votes_for_entry_nat + 1);
-    };
+    votes.put(entry, current_votes_for_entry + 1);
+
+    // if (current_votes_for_entry != -1) {
+    //   let current_votes_for_entry_nat : Nat = textToNat(Int.toText(current_votes_for_entry));
+    //   votes.put(entry, current_votes_for_entry_nat + 1);
+    // };
 
     votedList.add(voterMail);
 
@@ -88,7 +90,10 @@ actor {
   };
 
   public func resetVotes(passkey : Text) : async () {
-    if (passkey == psk) votes := RBTree.RBTree(Text.compare);
+    if (passkey == psk){
+       votes := RBTree.RBTree(Text.compare);
+       votedList.clear();
+    };
   };
 
 };
