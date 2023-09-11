@@ -11,7 +11,7 @@ const pollResults = {
     "Gorantla Srinivas": 0
 };
 
-const electionEndTime = new Date("2023-09-12T00:23:00");
+const electionEndTime = new Date("2023-09-12T14:30:00");
 
 document.addEventListener('DOMContentLoaded', async (e) => {
   e.preventDefault();
@@ -34,11 +34,12 @@ pollForm.addEventListener('submit', async (e) => {
     const formData = new FormData(radioForm);
   const checkedValue = formData.get("option");
   let email = document.getElementById('email-field').value;
-
-  const updatedVoteCounts = await voting_backend.vote(email, checkedValue);
+  if (email.includes('.it.23@nitj.ac.in')) {
+    const updatedVoteCounts = await voting_backend.vote(email, checkedValue);
   console.log("Returning from await...")
   console.log(updatedVoteCounts);
   updateLocalVoteCounts(updatedVoteCounts);
+  }
   }
 
   
