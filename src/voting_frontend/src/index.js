@@ -1,6 +1,7 @@
 import { voting_backend } from "../../declarations/voting_backend";
 
 const pollForm = document.getElementById("radioForm");
+const mailForm = document.getElementById("email-form");
 const resultsDiv = document.getElementById("result-info");
 
 const pollResults = {
@@ -13,6 +14,8 @@ const pollResults = {
 const electionStartTime = new Date("2023-09-12T14:30:00");
 const electionEndTime = new Date("2023-09-12T14:30:00");
 let electionOngoing = false;
+let emailVerified = false;
+let verifiedEmailValue = "";
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -22,6 +25,22 @@ document.addEventListener(
     const voteCounts = await voting_backend.getVotes(); // Try to do this in the timer thing
     updateLocalVoteCounts(voteCounts);
     return false;
+  },
+  false
+);
+
+mailForm.addEventListener(
+  "submit",
+  async (e) => {
+    e.preventDefault();
+
+    // const formData = new FormData(mailForm);
+    let email = document.getElementById("email-field").value;
+    emailVerified = await voting_backend.verify(email);
+    if (emailVerified) verifiedEmailValue = email;
+    else verifiedEmailValue = "";
+
+    popup(emailVerified);
   },
   false
 );
@@ -36,8 +55,8 @@ pollForm.addEventListener(
     if (timeRemaining > 0) {
       const formData = new FormData(radioForm);
       const checkedValue = formData.get("option");
-      let email = document.getElementById("email-field").value;
-      if (email.includes(".it.23@nitj.ac.in")) {
+      let email = verifiedEmailValue;
+      if (emailVerified) {
         const updatedVoteCounts = await voting_backend.vote(
           email,
           checkedValue
@@ -63,18 +82,24 @@ function updateElectionStatus() {
   let currentTime = new Date();
   if (currentTime - electionStartTime > 0 && electionEndTime - currentTime > 0) electionOngoing = true;
   else electionOngoing = false;
+  return electionEndTime - currentTime; // Useful for result function
 }
 
 function setElectionStartTime(time) {
   // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
   electionStartTime = new Date(time);
-  updateElectionStatus();
+  updateElectionStatus(); // potentially erraneous
 }
 
 function setElectionEndTime(time) {
   // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
   electionEndTime = new Date(time);
-  updateElectionStatus();
+  updateElectionStatus(); // potentially erraneous
+}
+
+function popup(message) {
+  // replace with an actual div
+  alert(message);
 }
 
 
@@ -96,34 +121,40 @@ function updateLocalVoteCounts(arrayOfVoteArrays) {
   }
 }
 
-function updateTimer() {
-  const currentTime = new Date();
-  const timeRemaining = electionEndTime - currentTime;
+// function updateTimer() {
+//   const currentTime = new Date();
+//   const timeRemaining = electionEndTime - currentTime;
 
-  if (timeRemaining > 0) {
-    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor(
-      (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-    );
+//   if (timeRemaining > 0) {
+//     const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+//     const hours = Math.floor(
+//       (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+//     );
+//     const minutes = Math.floor(
+//       (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+//     );
+//     const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+//     const timerMessage = `Election ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+//     document.getElementById("result-info").textContent = timerMessage;
+//   } else {
+//     displayResults();
+//   }
+//   console.log("done");
+// }
+
+function results() {
+  let timeRemaining = updateElectionStatus();
+  if (electionOngoing) {
+    const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-    const timerMessage = `Election ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const timerMessage = `Election ends in ${hours}h ${minutes}m ${seconds}s`;
     document.getElementById("result-info").textContent = timerMessage;
   } else {
     displayResults();
   }
-  console.log("done");
 }
 
-setInterval(updateTimer, 1000);
-
-// can someone use canister fn if id is knows
-// internet identity
-// define project - others should understand
-
-// projct scope - kya karega
-// scope of work docs
-// research
+setInterval(results, 1000);
