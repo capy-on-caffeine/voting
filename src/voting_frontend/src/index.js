@@ -11,8 +11,12 @@ const pollResults = {
   "Gorantla Srinivas": 0,
 };
 
-const electionStartTime = new Date("2023-09-12T14:30:00");
-const electionEndTime = new Date("2023-09-12T14:30:00");
+// alert("working");
+
+let electionStartTime = new Date("2023-09-25T23:21:00");
+alert(electionStartTime)
+let electionEndTime = new Date("2023-09-25T23:22:00");
+alert(electionStartTime)
 let electionOngoing = false;
 let emailVerified = false;
 let verifiedEmailValue = "";
@@ -37,10 +41,14 @@ mailForm.addEventListener(
     // const formData = new FormData(mailForm);
     let email = document.getElementById("email-field").value;
     emailVerified = await voting_backend.verify(email);
-    if (emailVerified) verifiedEmailValue = email;
-    else verifiedEmailValue = "";
+    console.log(emailVerified);
+    if (emailVerified) {
+      verifiedEmailValue = email;
+      const boolText = (emailVerified) ? "true" : "false";
+      alert(boolText);
+    } else verifiedEmailValue = "";
 
-    popup(emailVerified);
+    // alert(boolText);
   },
   false
 );
@@ -50,9 +58,10 @@ pollForm.addEventListener(
   async (e) => {
     e.preventDefault();
 
-    const currentTime = new Date();
-    const timeRemaining = electionEndTime - currentTime;
-    if (timeRemaining > 0) {
+    // const currentTime = new Date();
+    // const timeRemaining = electionEndTime - currentTime;
+    // if (timeRemaining > 0) {
+    if (electionOngoing) {
       const formData = new FormData(radioForm);
       const checkedValue = formData.get("option");
       let email = verifiedEmailValue;
@@ -71,36 +80,38 @@ pollForm.addEventListener(
   false
 );
 
-async function reset(passkey) {
-  await voting_backend.resetVotes(passkey);
-  const voteCounts = await voting_backend.getVotes();
-  updateLocalVoteCounts(voteCounts);
-  displayResults();
-}
+alert("working");
+
+// async function reset(passkey) {
+//   await voting_backend.resetVotes(passkey);
+//   const voteCounts = await voting_backend.getVotes();
+//   updateLocalVoteCounts(voteCounts);
+//   displayResults();
+// }
 
 function updateElectionStatus() {
   let currentTime = new Date();
   if (currentTime - electionStartTime > 0 && electionEndTime - currentTime > 0) electionOngoing = true;
   else electionOngoing = false;
-  return electionEndTime - currentTime; // Useful for result function
+  // return electionEndTime - currentTime; // Useful for result function
 }
 
-function setElectionStartTime(time) {
-  // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
-  electionStartTime = new Date(time);
-  updateElectionStatus(); // potentially erraneous
-}
+// function setElectionStartTime(time) {
+//   // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
+//   electionStartTime = new Date(time);
+//   updateElectionStatus(); // potentially erraneous
+// }
 
-function setElectionEndTime(time) {
-  // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
-  electionEndTime = new Date(time);
-  updateElectionStatus(); // potentially erraneous
-}
+// function setElectionEndTime(time) {
+//   // time is a string of format "{YYYY-MM-DD}T{HH:MM:SS}"
+//   electionEndTime = new Date(time);
+//   updateElectionStatus(); // potentially erraneous
+// }
 
-function popup(message) {
-  // replace with an actual div
-  alert(message);
-}
+// function popup(message) {
+//   // replace with an actual div
+//   alert(message);
+// }
 
 
 function displayResults() {
@@ -144,11 +155,22 @@ function updateLocalVoteCounts(arrayOfVoteArrays) {
 // }
 
 function results() {
-  let timeRemaining = updateElectionStatus();
-  if (electionOngoing) {
-    const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
-    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+  updateElectionStatus();
+  let currentTime = new Date();
+  let timeRemainingStart = electionStartTime - currentTime;
+  let timeRemainingEnd = electionEndTime - currentTime;
+
+  if (timeRemainingStart > 0) {
+    const hours = Math.floor(timeRemainingStart / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemainingStart % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeRemainingStart % (1000 * 60)) / 1000);
+
+    const timerMessage = `Election starts in ${hours}h ${minutes}m ${seconds}s`;
+    document.getElementById("result-info").textContent = timerMessage;
+  } else if (timeRemainingEnd > 0) {
+    const hours = Math.floor(timeRemainingEnd / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemainingEnd % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeRemainingEnd % (1000 * 60)) / 1000);
 
     const timerMessage = `Election ends in ${hours}h ${minutes}m ${seconds}s`;
     document.getElementById("result-info").textContent = timerMessage;

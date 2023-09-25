@@ -13,7 +13,7 @@ import Time "mo:base/Time";
 actor {
   let psk : Text = "theorywillonlytakeyousofar";
 
-  var electionPool : [Text] = [
+  var electionPool = [
     "abhinavs.ec.23@nitj.ac.in",
     "abhinavt.ec.23@nitj.ac.in",
     "adityas.ec.23@nitj.ac.in",
