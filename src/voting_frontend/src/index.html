@@ -7,37 +7,47 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <header>
-        <h1>CR Elections</h1>
-    </header>
-
-    <section id="email-validation">
-        <h2>Enter email</h2>
+    <section id="email-validation" class="sec-1">
+        <div class="tag">
+            <h1>CR Elections - by CDAO</h1>
+        </div>
+        <!-- <h2>Enter email</h2> -->
         <form id="email-form">
-            <input type="email" id="email-field" name="email" required>
-            <br><button type="submit">Verify</button>
+            <input type="email" id="email-field" name="email" placeholder="Enter email" required>
+            <button type="submit">Verify</button>
         </form>
         <p id="validation-message"></p>
     </section>
 
-    <section id="candidates">
-        <h2>Registered Candidates</h2>
+    <section id="candidates" class="sec-2">
+        <div class="tag"><h2>Registered Candidates</h2></div>
+        
         <form id="radioForm">
-            <label>
-                <input type="radio" name="option" value="Anoop Saini"> Anoop Saini
-            </label><br>
-            <label>
-                <input type="radio" name="option" value="Ayush Gupta"> Ayush Gupta
-            </label><br>
-            <label>
-                <input type="radio" name="option" value="Gorantla Srinivas"> Gorantla Srinivas
-            </label><br>
-            <br><button type="submit">Vote</button>
+            <div class="candidate-cards">
+                <div class="candidate-card card-1" id="card-1">
+                    <label class="cont">
+                        <input type="radio" name="option" value="Ananyaa"> Ananyaa
+                    </label>
+                </div>
+                <div class="candidate-card card-2" id="card-2">
+                    <label class="cont">
+                        <input type="radio" name="option" value="Vyomika"> Vyomika
+                    </label>
+                </div>
+                <div class="candidate-card card-3" id="card-3">
+                    <label class="cont">
+                        <input type="radio" name="option" value="Ishita"> Ishita
+                    </label>
+                </div>
+            </div>
+
+            <div class="btn-wrapper"><button type="submit">Vote</button></div>
         </form>
     </section>
 
-    <section id="results">
-        <h2>Election Results</h2>
+    <section id="results" class="sec-3">
+        <div class="tag" style="top: 20%;"><h2>Election Results</h2></div>
+        
         <div id="result-info">
         </div>
     </section>

@@ -6,17 +6,17 @@ const resultsDiv = document.getElementById("result-info");
 
 const pollResults = {
   // Change before elections dapp is deployed
-  "Anoop Saini": 0,
-  "Ayush Gupta": 0,
-  "Gorantla Srinivas": 0,
+  "Ananyaa": 0,
+  "Vyomika": 0,
+  "Ishita": 0,
 };
 
 // alert("working");
 
-let electionStartTime = new Date("2023-09-25T23:21:00");
-alert(electionStartTime)
-let electionEndTime = new Date("2023-09-25T23:22:00");
-alert(electionStartTime)
+let electionStartTime = new Date("2023-09-26T12:30:00");
+// alert(electionStartTime)
+let electionEndTime = new Date("2023-09-27T12:30:00");
+// alert(electionStartTime)
 let electionOngoing = false;
 let emailVerified = false;
 let verifiedEmailValue = "";
@@ -45,8 +45,14 @@ mailForm.addEventListener(
     if (emailVerified) {
       verifiedEmailValue = email;
       const boolText = (emailVerified) ? "true" : "false";
-      alert(boolText);
-    } else verifiedEmailValue = "";
+      popup("Email verified");
+      const element = getElementById("candidates");
+      element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+      // alert(boolText);
+    } else {
+      verifiedEmailValue = "";
+      popup("Invalid Email");
+    }
 
     // alert(boolText);
   },
@@ -65,7 +71,9 @@ pollForm.addEventListener(
       const formData = new FormData(radioForm);
       const checkedValue = formData.get("option");
       let email = verifiedEmailValue;
+      console.log("1: " + email + " " + checkedValue);
       if (emailVerified) {
+        console.log("2: " + email + " " + checkedValue);
         const updatedVoteCounts = await voting_backend.vote(
           email,
           checkedValue
@@ -73,6 +81,7 @@ pollForm.addEventListener(
         console.log("Returning from await...");
         console.log(updatedVoteCounts);
         updateLocalVoteCounts(updatedVoteCounts);
+        popup("Recorded! Performing auth checks");
       }
     }
     return false;
@@ -80,7 +89,7 @@ pollForm.addEventListener(
   false
 );
 
-alert("working");
+// alert("working");
 
 // async function reset(passkey) {
 //   await voting_backend.resetVotes(passkey);
@@ -108,10 +117,10 @@ function updateElectionStatus() {
 //   updateElectionStatus(); // potentially erraneous
 // }
 
-// function popup(message) {
-//   // replace with an actual div
-//   alert(message);
-// }
+function popup(message) {
+  // replace with an actual div
+  alert(message);
+}
 
 
 function displayResults() {
@@ -180,3 +189,28 @@ function results() {
 }
 
 setInterval(results, 1000);
+
+// let card1 = document.getElementById("card-1");
+// let card2 = document.getElementById("card-2");
+// let card3 = document.getElementById("card-3");
+
+// card1.addEventListener("click", function() {
+//   activate('card-1');
+// });
+
+// card2.addEventListener("click", function() {
+//   activate('card-2');
+// });
+
+// card3.addEventListener("click", function() {
+//   activate('card-3');
+// });
+
+// function activate(id) {
+//   let elem = document.getElementById(id);
+  
+//   card1.style.border = '0px solid #5442E7';
+//   card2.style.border = '0px solid #5442E7';
+//   card3.style.border = '0px solid #5442E7';
+//   elem.style.border = '3px solid #5442E7';
+// }

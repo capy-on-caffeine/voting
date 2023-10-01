@@ -1,3 +1,17 @@
+@media screen and (max-width: 450px) {
+  body {
+      font-size: 12.5px; /* Reduce the font size for phones */
+  }
+
+  #email-validation input[type="email"] {
+    width: 90%;
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
 body, h1, h2, p, ul, li {
   margin: 0;
   padding: 0;
@@ -5,29 +19,60 @@ body, h1, h2, p, ul, li {
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  color: #333;
+  /* background-color: #10141F; */
+  background: #10141F;
+  /* background: radial-gradient(circle, rgba(139,16,187,1) 0%, rgba(16,20,31,1) 100%); */
+  color: #F1F1F2;
   line-height: 1.6;
+  font-size: 25px;
 }
 
 header {
-  background-color: #007acc;
+  background-color: #5442E7;
   color: #fff;
   text-align: center;
   padding: 20px;
 }
 
+.tag {
+  color: #fff;
+  display: block;
+  position: relative;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+}
+
 section {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
+  /* margin: 20px; */
+  /* padding-left: 20px; */
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: #fff; */
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.sec-1 {
+  top: 0;
+}
+
+.sec-2 {
+  top: 100%;
+}
+
+.sec-3 {
+  top: 200%;
+}
+
 #email-validation form {
+  position: relative;
+  top: 35%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* change to row later */
   align-items: center;
 }
 
@@ -36,28 +81,100 @@ section {
 }
 
 #email-validation input[type="email"] {
-  width: 100%;
-  padding: 10px;
+  display: inline-block;
+  width: 50%;
+  padding: 15px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+#email-validation input[type="email"]:focus {
+  border: 2px solid #5442E7;
+}
+
+#email-validation button {
+  display: inline-block;
+}
+
 button {
-  background-color: #007acc;
+  /* display: inline; */
+  background-color: #5442E7;
   color: #fff;
-  padding: 10px 20px;
+  padding: 15px 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button[type="submit"]:hover {
-  background-color: #005f9e;
+  background-color: #412dda;
 }
 
 #candidates h2 {
   margin-top: 20px;
+}
+
+.cont {
+  display: block;
+  position: relative;
+  /* padding-left: 35px; */
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 0.88em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.cont input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.candidate-cards {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Distribute space between the cards */
+}
+
+.candidate-card {
+  flex: 1; /* Distribute available space equally among the cards */
+  padding: 2.5% 1.5%; /* Add padding for spacing inside each card */
+  margin: 5%; /* Add margin to create space between cards */
+  border: 0px solid #5442E7; /* Add a border for each card (optional) */
+  text-align: center; /* Center-align the content in each card */
+  border-radius: 6px;
+}
+
+.card-1 {
+  background-color: #FF9A24;
+}
+
+.card-1:hover {
+  background-color: #e1841a;
+}
+
+.card-2 {
+  background-color: #AA68FF;
+}
+
+.card-2:hover {
+  background-color: #8d50dc;
+}
+
+.card-3 {
+  background-color: #F62828;
+}
+
+.card-3:hover {
+  background-color: #cd2020;
+}
+
+#radioForm {
+  position: relative;
+  top: 30%;
 }
 
 .candidate {
@@ -73,23 +190,40 @@ button[type="submit"]:hover {
   margin-right: 20px;
 }
 
-.candidate button {
-  background-color: #007acc;
+.btn-wrapper {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.btn-wrapper button {
+  background-color: #5442E7;
   color: #fff;
-  padding: 5px 10px;
+  padding: 15px 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.candidate button:hover {
-  background-color: #005f9e;
+.btn-wrapper button:hover {
+  background-color: #412dda;
 }
 
-footer {
+#result-info {
+  color: #fff;
+  display: block;
+  position: relative;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+
+/* footer {
   text-align: center;
   padding: 10px;
   background-color: #007acc;
   color: #fff;
   border-top: 2px solid #005f9e;
-}
+} */
